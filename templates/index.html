@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Advanced Plagiarism Checker</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #0d0d0d;
+      color: #e0e0e0;
+      overflow-x: hidden;
+    }
+
+    /* Hero Section */
+    .hero {
+      background-image: url('https://source.unsplash.com/1600x900/?coding,technology');
+      background-size: cover;
+      background-position: center;
+      padding: 150px 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      background-attachment: fixed;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(0, 128, 255, 0.3));
+      z-index: 1;
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      position: relative;
+      z-index: 2;
+      animation: typing 3s steps(30, end), blink 0.75s step-end infinite;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 3px solid #fff;
+      width: fit-content;
+      margin: 0 auto;
+      color: #fff;
+    }
+
+    @keyframes typing {
+      from {
+        width: 0;
+      }
+
+      to {
+        width: 100%;
+      }
+    }
+
+    @keyframes blink {
+      50% {
+        border-color: transparent;
+      }
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      z-index: 2;
+      position: relative;
+      opacity: 0;
+      animation: fadeInUp 2s 2.5s forwards;
+      color: #ddd;
+    }
+
+    .hero a {
+      z-index: 2;
+      position: relative;
+      margin-top: 20px;
+      padding: 15px 30px;
+      font-size: 1.3rem;
+      display: inline-block;
+      background: linear-gradient(90deg, #4A00E0, #8E2DE2);
+      color: #fff;
+      border-radius: 30px;
+      box-shadow: 0 8px 15px rgba(74, 0, 224, 0.4);
+      transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .hero a:hover {
+      transform: translateY(-3px) scale(1.1);
+      box-shadow: 0 8px 25px rgba(74, 0, 224, 0.8);
+      background: linear-gradient(90deg, #8E2DE2, #4A00E0);
+    }
+
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .container {
+      padding: 80px 0;
+    }
+
+    /* Scroll Animations */
+    .fade-in {
+      opacity: 0;
+      animation: fadeIn 2s ease-in-out forwards;
+    }
+
+    .slide-in {
+      opacity: 0;
+      transform: translateX(-50px);
+      animation: slideIn 2s ease-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-50px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* Interactive Grid Layout */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+
+    .grid-card {
+      padding: 20px;
+      background: linear-gradient(145deg, #282c34, #1c1e24);
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 128, 255, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .grid-card:hover {
+      transform: translateY(-10px) scale(1.05);
+      box-shadow: 0 10px 30px rgba(33, 203, 243, 0.8);
+      background: linear-gradient(145deg, #1c1e24, #282c34);
+    }
+
+    textarea {
+      width: 100%;
+      padding: 15px;
+      font-size: 1.1rem;
+      border-radius: 15px;
+      background-color: #eef1f5;
+      border: 2px solid #2196F3;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    
+    }
+
+    textarea:focus {
+      border-color: #21CBF3;
+      box-shadow: 0 0 15px rgba(33, 203, 243, 0.4);
+    }
+
+    /* Button Animations */
+    button {
+      background: linear-gradient(90deg, #4A00E0, #8E2DE2);
+      color: #fff;
+      border: none;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 15px rgba(74, 0, 224, 0.5);
+      position: relative;
+      overflow: hidden;
+      border-radius: 30px;
+      padding: 12px 20px;
+      font-size: 1.1rem;
+    }
+
+    button:hover {
+      background: linear-gradient(90deg, #8E2DE2, #4A00E0);
+      transform: translateY(-3px) scale(1.1);
+      box-shadow: 0 8px 20px rgba(74, 0, 224, 0.8);
+    }
+
+    button:after {
+      content: "";
+      background: rgba(255, 255, 255, 0.5);
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 300%;
+      height: 300%;
+      transform: translate(-50%, -50%) scale(0);
+      transition: transform 0.5s ease;
+      border-radius: 50%;
+    }
+
+    button:active:after {
+      transform: translate(-50%, -50%) scale(1);
+      transition: 0s;
+    }
+
+    /* Glow Effect for Heading */
+    h2, h3 {
+      text-shadow: 0 0 8px rgba(74, 0, 224, 0.8);
+      transition: text-shadow 0.3s ease;
+    }
+
+    h2:hover, h3:hover {
+      text-shadow: 0 0 15px rgba(74, 0, 224, 1), 0 0 20px rgba(33, 203, 243, 0.8);
+    }
+
+    /* Smooth Scroll */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 50px;
+      padding: 20px 0;
+      background-color: #1e1e1e;
+      border-top: 1px solid #444;
+      color: #aaa;
+    }
+
+    footer a {
+      color: #21CBF3;
+    }
+
+    footer a:hover {
+      color: #4A00E0;
+    }
+    .gradient-text {
+  background: linear-gradient(90deg, #8E2DE2, #1c1e24);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 4rem; /* Adjust as necessary */
+  text-align: center; /* Optional, if you want to center it */
+}
+.upload-button {
+    display: inline-flex; /* Aligns image and text in a row */
+    align-items: center; /* Centers items vertically */
+    padding: 10px 15px; /* Adjusts padding for button feel */
+    border-radius: 5px; /* Rounded corners */
+    color: white; /* Text color */
+    font-size: 16px; /* Text size */
+    cursor: pointer; /* Changes cursor to pointer */
+    transition: all 0.3s ease; /* Animation effect */
+    border-radius: 10px;
+    margin-left: 100px;
+}
+
+/* Change cursor and apply animation on hover */
+.upload-button:hover {
+    background-color: #6978c5; /* Change background color on hover */
+    transform: scale(1.05); /* Slightly enlarge the button */
+     /* Change border color on hover */
+}
+
+/* Optional: Add a subtle box-shadow effect */
+.upload-button:hover img {
+    transform: translateY(-3px); /* Lift the image slightly */
+    transition: transform 0.7s; /* Smooth transition for the image */
+}
+
+
+  </style>
+</head>
+
+<body>
+  <!-- Navigation Bar -->
+  <nav class="container-fluid">
+    <ul>
+      <li><strong>Advanced Plagiarism Checker</strong></li>
+    </ul>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Features</a></li>
+      <li><a href="#" role="button">Check Now</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="container">
+      <h1>Check Your Content for <br>
+            <h1 style="background: linear-gradient(90deg,rgb(167, 8, 87),rgb(15, 31, 255));-webkit-background-clip: text;
+            color: transparent;">AI Plagiarism</h1></h1>
+      <p>Fast, reliable, and efficient plagiarism detection for your content.</p>
+      <a href="#check-section" class="animated-button" role="button">Start Checking Now</a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container" name = 'check-section'>
+    <h1 class="gradient-text">Check Now</h1>
+
+    <div class="grid fade-in">
+      <!-- Section 1 -->
+      <section class="grid-card slide-in">
+        <hgroup>
+          <p style="font-size: 1.6rem;font-weight: bold;color: rgb(215, 219, 243);">Upload Your Document</p>
+        </hgroup>
+        <p>Upload your PDF or TXT files, and our tool will scan them for  accurate plagiarism report within seconds.</p>
+        
+        <!-- File Upload Form -->
+        <form action="/upload_file" method="post" enctype="multipart/form-data">
+            <label for="file-upload" class="upload-button">
+              <img src="https://img.icons8.com/?size=100&id=11321&format=png" alt="" style="height: 50px;">        
+              Choose a file (PDF or TXT)
+            </label>
+            <input type="file" id="file-upload" name="document" accept=".pdf, .txt" required style="display:none;" onchange="displayFileName()">
+            
+            <!-- Element to display the file name -->
+            <p id="file-name" style="color: #fff; margin-top: 10px;"></p>
+            
+            <br><br>
+            <button type="submit" class="upload-submit">Upload and Check</button>
+          </form>
+          
+      </section>
+      
+      <!-- Section 2 -->
+      <section class="grid-card slide-in">
+        <h3>Paste Your Text Below:</h3>
+        <p>Simply paste the text you'd like to check for plagiarism, and hit the 'Check Now' button for an instant report.</p>
+        <form action="/text_area" method="POST">
+          <textarea name="input_text" rows="10" placeholder="Paste your content here..." required></textarea>
+          <button type="submit" class="primary">Check Now</button>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  {% if ai_percent %}
+  {%if ai_percent >=0 %}
+  <h2 id="result" style="margin-left: 50px; font-size: 2.8rem;">Results</h2>
+  <div class="result" style="height: 200px; background:linear-gradient(90deg, black,rgb(5, 5, 83)); border-radius: 20px; margin-left: 150px; margin-right: 150px; padding: 20px;">
+      <h4 style="text-align: center;">
+          <span style="font-size: 2rem; background: linear-gradient(90deg, #00ff00, #007bff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+              {{ ai_percent }}%
+          </span> 
+          text is likely Generated by AI
+      </h4>
+      <div style="text-align: center; margin-top: 20px;">
+          <a href="/result" class="btn-custom" style="text-decoration: none; padding: 10px 20px; background-color: #007BFF; color: white; border-radius: 5px; transition: background-color 0.3s;">
+              Download Report
+          </a>
+      </div>
+  </div>
+  {%endif%}
+  {% endif %}
+  
+  <!-- Subscribe Section -->
+  <section aria-label="Subscribe example">
+    <div class="container">
+      <article class="grid fade-in">
+        <hgroup>
+          <h2>About Us</h2>
+          <h3>Developed by Ayan and Raghu</h3>
+        </hgroup>
+
+      </article>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="container">
+    <small><a href="#">Terms of Service</a> • <a href="#">Privacy Policy</a></small>
+  </footer>
+
+  <script>
+    /* Scroll-triggered animations */
+    const faders = document.querySelectorAll('.fade-in');
+    const sliders = document.querySelectorAll('.slide-in');
+
+    const appearOptions = {
+      threshold: 0,
+      rootMargin: "0px 0px -200px 0px"
+    };
+
+    const appearOnScroll = new IntersectionObserver(function (entries, appearOnScroll) {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) {
+          return;
+        } else {
+          entry.target.classList.add("appear");
+          appearOnScroll.unobserve(entry.target);
+        }
+      });
+    }, appearOptions);
+
+    faders.forEach(fader => {
+      appearOnScroll.observe(fader);
+    });
+
+    sliders.forEach(slider => {
+      appearOnScroll.observe(slider);
+    });
+    function displayFileName() {
+    const fileInput = document.getElementById('file-upload');
+    const fileNameDisplay = document.getElementById('file-name');
+    
+    // Get the selected file name
+    const fileName = fileInput.files.length > 0 ? fileInput.files[0].name : '';
+    
+    // Update the display element
+    fileNameDisplay.textContent = fileName ? `Selected file: ${fileName}` : '';
+  }
+
+  </script>
+
+</body>
+
+</html>
